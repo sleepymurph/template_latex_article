@@ -94,6 +94,25 @@ and
 
 
 
+\subsection{Including plain text}
+
+The \lstinline{plaintext} environment ignores TeX control characters,
+but still typesets paragraphs.
+
+\begin{plaintext}
+    This text includes TeX control characters like %, &, or $ without escaping them.
+
+    Unlike verbatim, it does not preserve white space nor use a typewriter font.
+    Paragraphs are still
+    typeset as normal (%&$!).
+\end{plaintext}
+
+The \lstinline{inputplaintext} command will input a whole file as plain text prose.
+
+In this example, the abstract is included as plain text so that it can be more easily copied to other media.
+
+
+
 \subsection{Draft-Only Content}
 
 There is \lstinline{draftonlysection} for an entire section that should not be present in the \lstinline{final} version of the document.

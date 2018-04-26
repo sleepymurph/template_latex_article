@@ -137,6 +137,34 @@
 
 
 %======================================================================
+% Including a plain text as content, but not verbatim
+%
+% This is useful for including content that might need to be reused elsewhere
+% outside of TeX, like an abstract that will need to be copied into forms.
+%
+% Unlike verbatim, this does not change to typewriter font nor keep white space
+% verbatim. It still treats the text as prose and paragraphs. But it treats TeX
+% control characters like %, &, $, etc. as normal text so you do not have to
+% escape them.
+%
+
+\newenvironment{plaintext}
+{%
+    \begingroup%
+        \catcode`\$=12%
+        \catcode`\&=12%
+        \catcode`\#=12%
+        \catcode`\^=12%
+        \catcode`\_=12%
+        \catcode`\~=12%
+        \catcode`\%=12}
+{\endgroup}
+
+\newcommand{\inputplaintext}[1]
+{\begin{plaintext}\input{#1}\end{plaintext}}
+
+
+%======================================================================
 % Scratch text
 %
 % Built on: ifdraft
