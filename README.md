@@ -13,7 +13,9 @@ To view the article, see
 To view the article with draft annotations turned on, see
 [article-latex-draft.pdf](article-latex-draft.pdf)
 
-See the [README file in the LaTeX source subdirectory](article-latex-src/README.md) for information on rebuilding the PDF from source.
+See the [`article-latex/` source directory](article-latex/)
+and especially [its `README` file](article-latex/README.md)
+for information on rebuilding the PDF from source.
 
 
 <!-- From-Template TODO: Delete everything below here -->
