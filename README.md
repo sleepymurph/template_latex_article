@@ -6,15 +6,15 @@ This is a starter LaTeX article with many customizations that I use consistently
 
 <!-- From-Template TODO: Be sure to change all "article-latex" file names -->
 To view the article, see
-[article-latex-final.pdf](article-latex-final.pdf)
+[article-final.pdf](article-final.pdf)
 
 ## To work on the article
 
 To view the article with draft annotations turned on, see
-[article-latex-draft.pdf](article-latex-draft.pdf)
+[article-draft.pdf](article-draft.pdf)
 
-See the [`article-latex/` source directory](article-latex/)
-and especially [its `README` file](article-latex/README.md)
+See the [`article-latex-src/` source directory](article-latex-src/)
+and especially [its `README` file](article-latex-src/README.md)
 for information on rebuilding the PDF from source.
 
 
