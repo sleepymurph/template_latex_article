@@ -1,24 +1,24 @@
 LaTeX Article Template
 ==================================================
 
+<!-- From-Template TODO: Be sure to change this description -->
 This is a starter LaTeX article with many customizations that I use consistently.
 
+<!-- From-Template TODO: Be sure to change all "article-latex" file names -->
+To view the article, see
+[article-latex-final.pdf](article-latex-final.pdf)
 
-## Building the Article PDFs
+## To work on the article
 
-To build the article PDFs in a Docker-controlled environment with all dependencies:
+To view the article with draft annotations turned on, see
+[article-latex-draft.pdf](article-latex-draft.pdf)
 
-    (cd article-latex-src/ && ./docker_make.sh render)
-
-Be warned: A LaTeX installation (TeX Live) makes for a very large container, about 3 GB.
-We have tried to separate container layers so that the container with just the base OS and TeX Live can be reused for other documents, but it is still going to take up a decent amount of space on your `/var/` partition.
-
-See the [README file in the LaTeX source subdirectory](article-latex-src/README.md) for more build process information,
-including instructions for cleaning up Docker images,
-and faster build options for actively working on the document.
+See the [README file in the LaTeX source subdirectory](article-latex-src/README.md) for information on rebuilding the PDF from source.
 
 
-## Creating a new document from this skeleton
+<!-- From-Template TODO: Delete everything below here -->
+
+## To create a new document from this skeleton
 
 To base a new document off of this skeleton:
 
@@ -45,14 +45,7 @@ copy my usual customizations,
 but then tweak them as needed for each individual document.
 
 
-## Notes on the document skeleton
-
-
-### Abstract in plain text
-
-The abstract for the document comes from `abstract.txt`.
-This file is deliberately in plain text so that it will be easier to copy-and-paste the abstract text elsewhere, without having to worry about TeX escapes for common characters like `%` and `&`.
-If you do not need an abstract at all, simply delete the file, and the template will skip the abstract section entirely.
+## Notes on this document skeleton
 
 
 ### Font: Open Sans
@@ -70,16 +63,6 @@ On Ubuntu this package is part of the
 
 Or you can use a different font by editing the `packages.tex` file.
 The font packages are near the top.
-
-
-### The "final" option
-
-This template is set up to obey the `final` option in the `\documentclass`.
-There are many draft-only notes, annotations, and even sections that will
-disappear when `final` is added.
-
-I even define a several custom macros for draft-only (non-`final`) content.
-See `macros-general.tex` for their definitions and `doc-content-example.tex` for examples of their use.
 
 
 ### US English, A4 paper
@@ -144,35 +127,3 @@ This file can be checked for syntax errors and unexpected macro trouble.
 Common macros for many diagrams can be put in `diagram_common.m4.dot`.
 This file name is specified in the `DOT_INCLUDE` Makefile variable,
 if you need to change it.
-
-
-### Git Info
-
-I give draft after draft to collaborators for feedback.
-To make it easier to keep track of revisions, I have macros that include Git
-information directly into the document.
-
-There are a few important things to note about this Git information:
-
-- It only lists changes inside the document source subdirectory.
-    This is another advantage of keeping document source in subdirectories.
-    More subdirectories can be included by editing the `DOC_SOURCE_DIRS` variable in the Makefile.
-
-- The repository URL can be changed by editing the `\GitUrl` macro in `doc.tex`.
-    Or just delete it if you don't have a repository URL.
-
-- The history will not be included when the document is marked `final`.
-
-To get a clean history in the document: commit the source directory, run `make`
-again, and then commit the rendered PDF in the parent directory.
-
-How it works is a little tricky:
-
-1. The make process runs a script called `gen_meta_tex.sh` which extracts Git
-   information and writes out a TeX file full of macros.
-
-2. The document includes the generated TeX file and uses the macros.
-
-3. The make process also generates the Git log as a plain text (`.txt`) file,
-   and the document includes that as well. The history is a separate file
-   because the `verbatim` package is tricky.

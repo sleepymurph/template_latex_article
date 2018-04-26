@@ -50,9 +50,9 @@ See the `Dockerfile` for necessary dependencies.
 ```
 Document skeleton:
 
-    doc.tex             Main document skeleton
+    doc.tex             Main TeX file
     packages.tex        LaTeX Package includes
-    macros-general.tex  Macros that are part of this template
+    macros-general.tex  Reuseable macros that are part of this document's template
 
 Document content:
 
@@ -67,6 +67,8 @@ Build process and helpers:
     Makefile            Build process
     Dockerfile          Docker container description
     docker_make.sh      Helper script to run Make inside Docker
+    create_section_files.sh
+                        Helper script to generate separate files for document sections
     gen_meta_tex.sh     Script that extracts Git information to include in document
     .gitignore          List of files for Git to ignore (TeX generates a lot of them)
     tmux-session-doc.sh Script to launch a tmux session for this document
@@ -91,3 +93,62 @@ So if you change the directory name, you must change the image name given in the
 
 For more information on cleaning up unused Docker resources,
 Digital Ocean has an excellent tutorial, [How to Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes).
+
+
+## Additional notes on this document build process
+
+### Abstract in plain text
+
+The abstract for the document comes from `abstract.txt`.
+This file is deliberately in plain text so that it will be easier to copy-and-paste the abstract text elsewhere, without having to worry about TeX escapes for common characters like `%` and `&`.
+To remove the abstract, delete `abstract.txt`, and the build process will skip the abstract entirely.
+
+
+### The "final" option
+
+This document is set up to obey the `final` option in the `\documentclass`.
+There are many draft-only notes, annotations, and even sections that will
+disappear when `final` is added.
+
+The `make final` target will copy the main `doc.tex` file, uncomment the `final` option, and generate `doc-final.pdf`.
+
+This document includes several custom macros for draft-only (non-`final`) content.
+See `macros-general.tex` for their definitions and `doc-content-example.tex` for examples of their use.
+
+
+### Git Info
+
+Git information is included at the end of the draft version of the document.
+
+There are a few important things to note about this Git information:
+
+- It only lists changes inside the document source subdirectory.
+    More subdirectories can be included by editing the `DOC_SOURCE_DIRS` variable in the Makefile.
+
+- The repository URL can be changed by editing the `\GitUrl` macro in `doc.tex`.
+    If this macro is deleted entirely, no URL will be included.
+
+- The history will not be included when the document is marked `final`.
+
+To get a clean history in the document:
+commit the source directory,
+run `make render`,
+and then commit the rendered PDF in the parent directory.
+
+How Git information is included:
+
+1. The make process runs a script called `gen_meta_tex.sh` which extracts Git
+   information and writes out a TeX file full of macros, `doc-gen-meta.tex`.
+
+2. The document includes the generated TeX file and uses the macros.
+
+3. The make process also generates the Git log as a plain text (`.txt`) file,
+   and the document includes that as well. The history is a separate file
+   because the `verbatim` package is tricky.
+
+
+## Template/Skeleton
+
+This document and build process is based on a template/skeleton by Michael Murphy at the The University of Tromsø in beautiful Tromsø Norway.
+
+The template is available on GitHub at <https://github.com/sleepymurph/template_latex_article>
