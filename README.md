@@ -4,61 +4,34 @@ LaTeX Article Template
 This is a starter LaTeX article with many customizations that I use consistently.
 
 
-Basic Usage
---------------------------------------------------
+## Building the Article PDFs
 
-The build process is controlled by `make`. To build:
+To build the article PDFs in a Docker-controlled environment with all dependencies:
 
-1. `cd` into source subdirectory.
-2. Run `make` to compile `doc.pdf` in LaTeX's `draft` mode
-3. Run `make final` to compile `doc-final.pdf` in LaTeX's `final` mode
-4. Run `make render` to compile both draft and final versions, then copy them to the parent directory as `latex-article-draft.pdf` and `latex-article-final.pdf`, respectively.
+    (cd article-latex-src/ && ./docker_make.sh render)
 
-The idea here is to be able
-to rapidly generate and view the document as you work on it
-(`latex-article/doc.pdf` and `latex-article/doc-final.pdf`),
-then at stopping points,
-to commit rendered versions of the document for easier sharing with collaborators
-(`latex-article-draft.pdf` and `latex-article-final.pdf`).
+Be warned: A LaTeX installation (TeX Live) makes for a very large container, about 3 GB.
+We have tried to separate container layers so that the container with just the base OS and TeX Live can be reused for other documents, but it is still going to take up a decent amount of space on your `/var/` partition.
 
-See the [README file in the subdirectory](latex-article/) for details.
+See the [README file in the LaTeX source subdirectory](article-latex-src/README.md) for more build process information,
+including instructions for cleaning up Docker images,
+and faster build options for actively working on the document.
+
+
+## Creating a new document from this skeleton
 
 To base a new document off of this skeleton:
 
-1. Copy the `latex-article` directory into your project and rename it.
-    The rendered PDF names `latex-article-draft.pdf` and `latex-article-final.pdf` are taken from the subdirectory name, so they will change when you rename the subdirectory.
-2. Don't forget to copy the hidden `.gitignore` file.
-3. Change the title, author, and git URL in `doc.tex`
-4. Write the document contents in `doc-content.tex`
-5. Edit any other files as needed
+1. Clone this repository.
+2. Edit `doc.tex` and change the title, author, and git URL
+3. Write the document contents in `doc-content.tex`, `abstract.txt`, etc.
+4. Edit `Makefile` and change `DOC_NAME` to the desired PDF file names
+5. Edit the `Makefile` to add any document-specific build rules
+6. Edit the `Dockerfile` to change build environment dependencies
+7. Replace this README with your own
 
 
-
-Building in a Docker container
---------------------------------------------------
-
-This directory also includes a Dockerfile to set up a build environment.
-To build the document inside a Docker container, run
-
-    ./docker_make.sh [MAKE TARGETS]
-
-See `Dockerfile` for dependencies and `docker_make` for Docker invocations.
-
-This will create a docker image named after the document subdirectory,
-in this case `latex-article`.
-
-To remove the image (change the name to match the subdirectory name):
-
-    docker rmi latex-article
-
-Then you can remove dangling resources with a command like `docker system prune`.
-See the [How to Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes) tutorial from Digital Ocean for more cleanup commands.
-
-See the [README file in the subdirectory](latex-article/) for details about the build process.
-
-
-Why Not a Package?
---------------------------------------------------
+## Why a document skeleton? Why not a Package?
 
 Because I have barely scratched the surface of TeX/LaTeX and I definitely
 don't know enough about how packaging works.
@@ -72,50 +45,7 @@ copy my usual customizations,
 but then tweak them as needed for each individual document.
 
 
-Files
---------------------------------------------------
-
-```
-Document skeleton:
-
-    doc.tex             Main document skeleton
-    packages.tex        LaTeX Package includes
-    macros-general.tex  Macros that are part of this template
-
-Document content:
-
-    doc-content.tex     Place for document contents
-    abstract.txt        Abstract (plain text)
-    macros-doc.tex      Place for document-specific macros
-    sources.bib         Bibliography database
-    glossary.tex        Place for glossary entries
-
-Build process and helpers:
-
-    Makefile            Build process
-    gen_meta_tex.sh     Script that extracts Git information
-    .gitignore          Generated files for Git to ignore (TeX generates a lot of them)
-    tmux-session-doc.sh Script to launch a tmux session for this document
-```
-
-
-Notes
---------------------------------------------------
-
-### Structure: sources in subdirectory, rendered PDF committed in top level of repository
-
-I keep my LaTeX sources in Git, naturally.
-I keep the document source in a subdirectory of the repository,
-and then I commit a rendered copy of the PDF in the top level of the repository
-(see
-[`latex-article-draft.pdf`](latex-article-draft.pdf) and
-[`latex-article-final.pdf`](latex-article-final.pdf)
-in this repo).
-
-This comes from collaboration.
-I want my collaborators to be able to look at the latest version of the
-document directly from the repository without having to set up the LaTeX build
-environment.
+## Notes on the document skeleton
 
 
 ### Abstract in plain text
@@ -125,7 +55,7 @@ This file is deliberately in plain text so that it will be easier to copy-and-pa
 If you do not need an abstract at all, simply delete the file, and the template will skip the abstract section entirely.
 
 
-### Dependency: Open Sans
+### Font: Open Sans
 
 [Open Sans](https://fonts.google.com/specimen/Open+Sans)
 is the official font at the university where I work.
@@ -174,18 +104,20 @@ So I have it built into the document build process here.
 
 To use Graphviz:
 
-1. Add dot files in this directory
+1. Add dot files in the source directory
 
-2. Add the dot file name to the `DOT_DIAGRAMS` variable in the Makefile,
-    with a PDF extension
+2. Add the dot file name to the `DOC_DEPS` variable in the Makefile,
+    but with a PDF extension
 
         # To include a diagram generated from diagram_example.dot
-        DOT_DIAGRAMS=diagram_example.pdf
+        DOC_DEPS=\
+            diagram_example.pdf \
+            another_diagram.pdf \
 
 3. Create a figure in the document
 
 
-### M4 preprocessing for Graphviz diagrams
+#### M4 preprocessing for Graphviz diagrams
 
 The build process runs the diagrams through the `m4` preprocessor first,
 then through `dot`.
@@ -208,6 +140,10 @@ So the intermediate build step is explicit.
 The result of M4 expansion will be written to a file with a
 `.preprocessed.dot` extension.
 This file can be checked for syntax errors and unexpected macro trouble.
+
+Common macros for many diagrams can be put in `diagram_common.m4.dot`.
+This file name is specified in the `DOT_INCLUDE` Makefile variable,
+if you need to change it.
 
 
 ### Git Info
