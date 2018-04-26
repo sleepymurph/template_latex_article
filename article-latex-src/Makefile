@@ -6,10 +6,10 @@
 default: doc.pdf
 
 # Basename of current directory
-DIR_NAME=$(notdir $(shell pwd))
+DIR_NAME="$(notdir $(shell pwd))"
 
 # The document name when using the "render" target
-DOC_NAME=$(DIR_NAME)
+DOC_NAME="article"
 
 # Document dependencies, typically the diagrams
 DOC_DEPS=\
