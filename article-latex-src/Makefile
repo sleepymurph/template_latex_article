@@ -19,12 +19,14 @@ DOC_DEPS=\
     diagram_example.pdf \
 
 
+# Options to pass to pdflatex
+PDFLATEX_OPTS=-halt-on-error
+
 # Git: List of directories that should be included when listing the Git history
 DOC_SOURCE_DIRS=.
 
 # Graphviz: Files to include with each dot file
 DOT_INCLUDE=diagram_common.m4.dot
-
 
 #======================================================================
 # Specific rules for this document
@@ -64,11 +66,11 @@ TEX_DEPS=\
 
 %.pdf: %.tex $(TEX_DEPS)
 
-	pdflatex $*.tex
+	pdflatex $(PDFLATEX_OPTS) $*.tex
 	bibtex $*.aux
 	makeglossaries $*
-	pdflatex $*.tex
-	pdflatex $*.tex
+	pdflatex $(PDFLATEX_OPTS) $*.tex
+	pdflatex $(PDFLATEX_OPTS) $*.tex
 
 # Generate a version of the doc in final mode
 %-final.tex: %.tex
