@@ -100,6 +100,7 @@
 % Bibliography
 %
 
+% Advanced bibliography with biblatex
 \usepackage[
     backend=bibtex,
     % use date like "Apr. 7, 2017" instead of American "04/07/2017"
@@ -116,6 +117,16 @@
 \DeclareNameAlias{default}{last-first}
 % Bib names small caps
 \renewcommand{\mkbibnamelast}[1]{\textsc{#1}}
+
+
+% Allow grouped citations (if biblatex not allowed)
+%
+% e.g. \cite{citation01,citation02,}
+%
+% Note: Unlike biblatex, cite does not like trailing commas in the citation listings.
+% A trailing comma will result in a null reference which becomes unknown.
+% To fix it, delete the trailing comma
+%\usepackage{cite}
 
 
 %======================================================================
