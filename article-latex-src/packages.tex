@@ -74,8 +74,10 @@
 %
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily\footnotesize,breaklines=false}
-% Don't panic on curly quotes that sneak into listings
+
+% Don't panic on the following Unicode characters in listings, replace them instead
 \lstset{literate={’}{{'}}1}
+\lstset{literate={…}{{...}}1}
 
 
 %======================================================================
