@@ -2,11 +2,15 @@
 
 set -x
 
-browser_window() {
+browser_new_window() {
     # Start first arg in new window
     chromium-browser --new-window "$1"
     # Start rest as tabs
     shift
+    browser $*
+}
+
+browser() {
     for URL do
         chromium-browser "$URL"
     done
