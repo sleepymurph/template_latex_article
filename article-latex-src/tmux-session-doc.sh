@@ -2,12 +2,14 @@
 
 set -x
 
-browser_new_window() {
+browser_window() {
+    # Start first arg in new window
     chromium-browser --new-window "$1"
-}
-
-browser() {
-    chromium-browser "$1"
+    # Start rest as tabs
+    shift
+    for URL do
+        chromium-browser "$URL"
+    done
 }
 
 SCRIPT_DIR="$( dirname "${BASH_SOURCE[0]}" | xargs readlink -f)"
@@ -37,7 +39,9 @@ tmux send-keys "cd \"$WINDOW_0_DIR\"" C-m
 # ------------------------------------------
 # ↓↓↓ Customize session and windows here ↓↓↓
 
-browser_new_window "https://github.com/sleepymurph/project-templates"
+browser_window \
+    https://github.com/sleepymurph/template_latex_article \
+
 xdg-open "$SCRIPT_DIR/doc.pdf" &> /dev/null
 
 # In window 0 ($WINDOW_0_DIR)
