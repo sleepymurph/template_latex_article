@@ -4,11 +4,14 @@ LaTeX Article Template
 <!-- From-Template TODO: Be sure to change this description -->
 This is a starter LaTeX article with many customizations that I use consistently.
 
-<!-- From-Template TODO: Be sure to change all "article-latex" file names -->
-To view the article, see
-[article-final.pdf](article-final.pdf)
+<!-- From-Template TODO: Be sure to change all "article-" file names
+    if you changed the generated names in the Makefile -->
 
-## To work on the article
+## To view the article
+
+To view the article in its "final" form, see [article-final.pdf](article-final.pdf)
+
+## To work on or collaborate on the article
 
 To view the article with draft annotations turned on, see
 [article-draft.pdf](article-draft.pdf)
