@@ -21,10 +21,12 @@
 
 # Glossaries
 *.glo
-*.ist
 *.glg
 *.gls
-*.cons-gl?
+*.*-glo
+*.*-glg
+*.*-gls
+*.ist
 
 # Graphics
 *.preprocessed.dot
