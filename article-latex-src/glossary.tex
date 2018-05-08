@@ -44,3 +44,31 @@
 %   \acrlong{label}         % use the long form with no abbreviation
 %   \acrfull{label}         % use the full "long (short)" form
 %   Each of these also have \acr___pl variants for plurals
+
+
+
+
+\ifoptionfinal{%
+    % Nothing
+}{
+
+\newglossaryentry{cyber-physical system}{
+    name={cyber-physical system},
+    description={A computational system that is tightly conjoined with the physical world},
+}
+
+\newacronym[]{ML}{ML}{machine learning}
+
+
+% Example for creating another category of glossaries, for journals
+% These declarations come first, then \makeglossaries, then glossary entries.
+% This could easily be a separate file if it gets too large.
+\altnewglossary{cons}{cons}{Journals and Conferences}
+\makeglossaries
+
+\newacronym[
+    type={cons},
+]{ACM}{ACM}{Association for Computing Machinery}
+\glsunset{ACM} % Well-known enough in context of this paper
+
+}

@@ -24,6 +24,7 @@
 *.ist
 *.glg
 *.gls
+*.cons-gl?
 
 # Graphics
 *.preprocessed.dot
