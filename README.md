@@ -28,9 +28,9 @@ for information on rebuilding the PDF from source.
 To base a new document off of this skeleton:
 
 1. Clone this repository.
-2. Edit `doc.tex` and change the title, author, and git URL
-3. Write the document contents in `doc-content.tex`, `abstract.txt`, etc.
-4. Edit `Makefile` and change `DOC_NAME` to the desired PDF file names
+2. Edit `Makefile` and change `DOC_NAME` to the desired PDF file names
+3. Edit `doc.tex` and change the title, author, and git URL
+4. Write the document contents in `doc-content.tex`, `abstract.txt`, etc.
 5. Edit the `Makefile` to add any document-specific build rules
 6. Edit the `Dockerfile` to change build environment dependencies
 7. Replace this README with your own

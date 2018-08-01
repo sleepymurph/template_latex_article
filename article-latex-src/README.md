@@ -42,7 +42,8 @@ This will make it easier to merge, cherry-pick, and rearrange commits if needed 
 
 Note that these are all Make targets.
 If you install all necessary dependencies on your own machine, you can run Make directly: `make`, `make final`, `make clean render`, etc.
-See the `Dockerfile` for necessary dependencies.
+See the [Dockerfile](Dockerfile) for necessary dependencies,
+and see the [Makefile](Makefile) for the gory details of the build process.
 
 
 ## Important files
