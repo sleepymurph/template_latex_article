@@ -97,9 +97,9 @@ To use Graphviz:
 2. Add the dot file name to the `DOC_DEPS` variable in the Makefile,
     but with a PDF extension
 
-        # To include a diagram generated from diagram_example.dot
+        # To include a diagram generated from example_graphviz_diagram.dot
         DOC_DEPS=\
-            diagram_example.pdf \
+            example_graphviz_diagram.pdf \
             another_diagram.pdf \
 
 3. Create a figure in the document

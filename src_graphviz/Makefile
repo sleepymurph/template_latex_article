@@ -3,7 +3,7 @@
 #
 
 GENERATED=\
-    diagram_example.pdf
+    example_graphviz_diagram.pdf
 
 default: copy_generated
 
