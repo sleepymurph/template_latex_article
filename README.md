@@ -151,7 +151,7 @@ Document Template
 
 This document and build process is based on a template/skeleton
 by Michael Murphy
-at the UiT The Arctic University of Norway.
+at UiT The Arctic University of Norway.
 
 The template is available on GitHub at
 <https://github.com/sleepymurph/template_latex_article>
