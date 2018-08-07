@@ -5,7 +5,8 @@
 GENERATED=\
     example_graphviz_diagram.pdf
 
-default: copy_generated
+default: $(GENERATED)
+	cp $(GENERATED) ../generated_components
 
 DOT_INCLUDE=diagram_common.m4.dot
 
@@ -24,9 +25,6 @@ DOT_INCLUDE=diagram_common.m4.dot
 # If a specific diagram needs to be processed with Neato or other Graphviz
 # program, you can create a more specific rule for that diagram.
 #
-
-copy_generated: $(GENERATED)
-	cp $(GENERATED) ../generated_components
 
 %.preprocessed.dot: %.dot $(DOT_INCLUDE)
 	m4 $(DOT_INCLUDE) $*.dot > $*.preprocessed.dot

@@ -5,9 +5,7 @@
 GENERATED=\
 	example_data_multimeter.pdf \
 
-default: copy_generated
-
-copy_generated: $(GENERATED)
+default: $(GENERATED)
 	cp $(GENERATED) ../generated_components
 
 # Tell pipenv to put its virtual environment in the project directory,

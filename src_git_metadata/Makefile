@@ -7,7 +7,8 @@ GENERATED=\
     git_log.txt \
     git_short_hash.txt \
 
-default: copy_generated
+default: $(GENERATED)
+	cp $(GENERATED) ../generated_components
 
 # List of directories that should be included when listing the Git history
 DOC_SOURCE_DIRS=$(wildcard ../src_*)
@@ -27,9 +28,6 @@ DOC_SOURCE_FILES=$(shell \
 			<(git ls-files $(DOC_SOURCE_DIRS) | sort) \
 			<(git ls-files --deleted $(DOC_SOURCE_DIRS) | sort) \
 		)
-
-copy_generated: $(GENERATED)
-	cp $(GENERATED) ../generated_components
 
 git_metadata.tex: $(GIT_HEAD) $(DOC_SOURCE_FILES) generate_git_metadata_tex.sh
 	./generate_git_metadata_tex.sh $(DOC_SOURCE_DIRS) > git_metadata.tex
