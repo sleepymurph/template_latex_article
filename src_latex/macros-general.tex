@@ -252,7 +252,7 @@
 
     \draftonlysection{Document Version and History}
     {
-        \input{../src_git_metadata/generated_git_metadata.tex}
+        \input{../generated_components/generated_git_metadata.tex}
 
         Document date: \GitAuthorDate \\
         Git source version: \texttt{\GitAbrHash}%
@@ -261,7 +261,7 @@
         \fi
 
         Recent history:
-        \lstinputlisting{../src_git_metadata/generated_git_log.txt}
+        \lstinputlisting{../generated_components/generated_git_log.txt}
 
         \ifcsname GitUrl\endcsname
             Repository URL: \\
