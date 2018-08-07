@@ -27,6 +27,9 @@ datestamp: clean latex
 gitstamp: clean git_metadata latex
 	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat generated_components/git_short_hash.txt).pdf
 
+# Update metadata in scripts after changing it above
+metadata_update: tmux-session.sh
+
 
 #----------------------------------------------------------------------
 # Build subsystems
@@ -40,3 +43,12 @@ graphviz:
 
 git_metadata:
 	cd src_git_metadata/ && $(MAKE)
+
+
+#----------------------------------------------------------------------
+# Scripts to update when high-level metadata changes
+#
+
+tmux-session.sh: Makefile
+	sed -i "/^DOC_NAME=/cDOC_NAME=$(DOC_NAME)" tmux-session.sh
+	sed -i "/^REPO_HUB_URL=/cREPO_HUB_URL=$(REPO_HUB_URL)" tmux-session.sh

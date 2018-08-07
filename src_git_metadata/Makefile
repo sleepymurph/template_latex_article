@@ -33,6 +33,7 @@ copy_generated: $(GENERATED)
 
 git_metadata.tex: $(GIT_HEAD) $(DOC_SOURCE_FILES) generate_git_metadata_tex.sh
 	./generate_git_metadata_tex.sh $(DOC_SOURCE_DIRS) > git_metadata.tex
+	echo "\gdef\GitUrl{\url{$(REPO_HUB_URL)}}" >> git_metadata.tex
 
 git_log.txt: $(GIT_HEAD) $(DOC_SOURCE_FILES)
 	git log --oneline --graph -n10 $(DOC_SOURCE_DIRS) > git_log.txt

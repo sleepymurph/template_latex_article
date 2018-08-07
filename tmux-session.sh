@@ -24,7 +24,7 @@ REPO_ROOT_DIR="$(cd $SCRIPT_DIR && git rev-parse --show-toplevel)"
 # ↓↓↓ Set project-specific variables here ↓↓↓
 
 DOC_NAME=doc
-REPO_HUB_URL="file://$REPO_ROOT_DIR/README.md"
+REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
 
 LATEX_SRC_DIR="$SCRIPT_DIR/src_latex"
 
