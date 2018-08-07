@@ -1,6 +1,24 @@
 #======================================================================
 # Makefile: Diagrams with Graphviz
 #
+# To create a new Graphviz diagram...
+#
+# 1. Create a Graphviz file (e.g. my_diagram.dot)
+#
+# 2. Add a PDF-version of that name to the `GENERATED` variable:
+#
+# 3. Include the generated PDF in your LaTeX document (be sure to reference the
+#    version that is copied to the generated_components/ directory):
+#
+#         \includegraphics[width=0.5\textwidth]{../generated_components/my_diagram.pdf}
+#
+# Note that this build process runs the Graphviz documents through the M4 macro
+# processor (https://www.gnu.org/software/m4/m4.html) before sending them to
+# dot. This lets you use macros in your Graphviz files to define common styles
+# and other shortcuts. However, it can make debugging trickier. To see the
+# preprocessed output, look at the '*.preprocessed.dot' files that are left
+# behind.
+#
 
 GENERATED=\
     example_graphviz_diagram.pdf

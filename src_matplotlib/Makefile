@@ -1,6 +1,28 @@
 #======================================================================
 # Makefile: Plots with Python and Matplotlib
 #
+# To create a new Matplotlib diagram
+#
+# 1. Put data files in the `data/` directory.
+#
+# 2. Choose a naming convention that identifies different formats of data to go
+#    with different processors. For example, `*_multimeter.csv` for multimeter
+#    data that will be processed with the multimeter plotting script.
+#
+# 3. Write a Python script to transform data into a plot (the hard part).
+#
+# 4. Use Pipenv when adding Python dependencies to your script. For example:
+#
+#         pipenv install matplotlib
+#
+# 5. Use your naming convention to create a generic Make rule for different
+#    formats of data. See the generic rules below for inspiration.
+#
+# 6. Add a PDF-version of that name to the `GENERATED` variable.
+#
+# 7. Include the generated PDF in your LaTeX document (be sure to reference the
+#    version that is copied to the generated_components/ directory).
+#
 
 GENERATED=\
 	example_data_multimeter.pdf \

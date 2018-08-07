@@ -39,7 +39,8 @@ Run `docker_cleanup.sh` to reclaim space.
     # Delete the container image and purge all dangling containers
     ./docker_cleanup.sh
 
-See the [top-level Makefile](Makefile) for additional targets.
+See the [top-level Makefile](Makefile) for additional targets,
+and see the [Dockerfile](Docerfile) for build dependencies.
 
 
 Build Modules
@@ -55,26 +56,22 @@ This build is designed to be broken into modules:
     [generated_components/](generated_components/) directory
     in case they need to be frozen to simplify the build.
 
+
 ### Stripping everything but LaTeX from the build process
+
+Everything that needs tools other than pdflatex and bibtex to build should be
+put in subsystems in src_*/ subdirectories.
 
 The main idea here is that the core LaTeX part of the build should be as close
 as possible to the standard pdflatex-bibtex-pdflatex-pdflatex invocation as
 possible. This way, collaborators and publication editors can tweak it and
 build it in a familiar manner if need be.
 
-To strip the build process to a bare-bones pdflatex invocation:
+See comments in the [top-level Makefile](Makefile) for details on how to strip
+down the build.
 
-1. Include the generated document components in the `generated_components/`
-    directory in the bundle.
-
-    Commit them with `git add -f generated_components/*`,
-    or simply make sure they're included in any bundles you send out.
-
-2. Edit the [top-level Makefile](Makefile)'s `latex`
-    target to skip the subsystems you want it to skip.
-
-
-After that, you should not have to worry about any of the following subsystems.
+Once the build is stripped down, you should not have to worry about
+dependencies or build process for any of the other build modules.
 
 
 ### Git Metadata (`src_git_metadata/`)
@@ -82,13 +79,10 @@ After that, you should not have to worry about any of the following subsystems.
 This document includes a macro that adds Git metadata to the document when it's
 not in `final` mode.
 
-Ubuntu dependencies: `apt install git`
-
-How it works:
+How it works with this build system:
 
 1. The Makefile runs scripts that query Git and write metadata to
     various .tex and .txt files
-
 2. A TeX macro, `\documenthistory`, reads the generated files and inserts the
    info into the LaTeX document.
 
@@ -103,33 +97,6 @@ for the definition for the `\documenthistory` macro.
 Graphviz (<https://www.graphviz.org/>)
 is a language for generating diagrams where bubbles point to each other.
 
-Ubuntu dependencies: `apt install graphviz m4`
-
-To create a new Graphviz diagram:
-
-1. Create a Graphviz file (e.g. my_diagram.dot)
-
-2. Edit [src_graphviz/Makefile](src_graphviz/Makefile) and add a PDF-version of
-   that name to the `GENERATED` variable:
-
-        GENERATED=\
-            example_graphviz_diagram.pdf \
-            my_diagram.pdf \
-
-3. Include the generated PDF in your LaTeX document (be sure to reference the
-   version that is copied to the generated_components/ directory):
-
-        \includegraphics[width=0.5\textwidth]{../generated_components/my_diagram.pdf}
-
-Note that this build process runs the Graphviz documents through the
-[M4 macro processor](https://www.gnu.org/software/m4/m4.html)
-before sending them to `dot`.
-This lets you use macros in your Graphviz files to define common styles
-and other shortcuts.
-However, it can make debugging trickier.
-To see the preprocessed output, look at the `*.preprocessed.dot` files in the
-subdirectory.
-
 See the [src_graphviz/Makefile](src_graphviz/Makefile) for details.
 
 
@@ -138,41 +105,12 @@ See the [src_graphviz/Makefile](src_graphviz/Makefile) for details.
 Matplotlib (<https://matplotlib.org/>)
 is an extensive Python library for plotting.
 
-- Ubuntu dependencies: `apt install python3-pip`
-- User dependencies: `pip3 install --user pipenv`
+How it works with this build system:
 
-To create a new Matplotlib diagram
-
-1. Put data files in the `data/` directory.
-
-2. Choose a naming convention that identifies different formats of data to go
-   with different processors. For example, `*_multimeter.csv` for multimeter
-   data that will be processed with the multimeter plotting script.
-
-3. Write a Python script to transform data into a plot (the hard part).
-
-4. Use Pipenv when adding Python dependencies to your script. For example:
-
-        pipenv install matplotlib
-
-5. Use your naming convention to create a generic Make rule for different
-   formats of data. Example:
-
-        # Generic rule to use the multimeter script to plot multimeter data
-        %_multimeter.pdf: .venv plot_multimeter_data.py \
-            ../data/%_multimeter.csv
-                pipenv run ./plot_multimeter_data.py \
-                    ../data/$*_multimeter.csv \
-                    $*_multimeter.pdf
-
-6. Edit [src_matplotlib/Makefile](src_matplotlib/Makefile) and add a
-   PDF-version of that name to the `GENERATED` variable.
-
-        GENERATED=\
-            example_data_multimeter.pdf \
-
-7. Include the generated PDF in your LaTeX document (be sure to reference the
-   version that is copied to the generated_components/ directory).
+1. Raw data files are placed in the [data/](data/) directory.
+2. Python scripts in the [src_matplotlib/](src_matplotlib/) directory
+    use Matplotlib to parse the data and generate plots.
+3. Pipenv is used to install any needed Python libraries.
 
 See the [src_matplotlib/Makefile](src_matplotlib/Makefile) for details.
 

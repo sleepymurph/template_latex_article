@@ -16,10 +16,10 @@ RUN apt-get update \
 
 # latex: install extra texlive packages for this document
 #
-# texlive-bibtex-extra:     needed for biblatex
-# texlive-fonts-extra:      needed for opensans
-# texlive-generic-extra:    needed for glossaries
-# texlive-science:          needed for siunitx
+# texlive-bibtex-extra      needed for biblatex
+# texlive-fonts-extra       needed for opensans
+# texlive-generic-extra     needed for glossaries
+# texlive-science           needed for siunitx
 #
 # To find what packages on your machine are missing here:
 #
@@ -39,14 +39,14 @@ RUN apt-get update \
             texlive-science \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-# graphviz: additional dependencies to build graphviz diagrams
+# graphviz: install dependencies to build graphviz diagrams
 RUN apt-get update \
     && apt-get install -y \
             graphviz \
             m4 \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
-# matplotlib: additional dependencies to build matplotlib plots
+# matplotlib: install dependencies to build matplotlib plots
 RUN apt-get update \
     && apt-get install -y \
             python3-pip \
