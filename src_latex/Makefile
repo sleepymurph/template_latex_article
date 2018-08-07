@@ -2,7 +2,6 @@
 # Makefile: LaTeX
 #
 
-# Default target
 default: $(DOC_NAME).pdf
 
 # Source documents for the TeX process (tex files, bib database, abstract, etc.)
@@ -22,9 +21,6 @@ PDFLATEX_OPTS=-halt-on-error
 # Convenience targets
 #
 
-# A version of the PDF in final mode
-final: doc-final.pdf
-
 # Clean by removing all git-ignored files
 clean:
 	git clean -fX .
@@ -41,10 +37,6 @@ clean:
 	makeglossaries $*
 	pdflatex $(PDFLATEX_OPTS) $*.tex
 	pdflatex $(PDFLATEX_OPTS) $*.tex
-
-# Generate a version of the doc in final mode
-%-final.tex: %.tex
-	sed 's/%final/final/' $*.tex > $*-final.tex
 
 
 #======================================================================
