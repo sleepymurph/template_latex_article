@@ -2,6 +2,7 @@
 # Makefile: LaTeX
 #
 
+# The DOC_NAME is set by the parent build process
 default: $(DOC_NAME).pdf
 
 # Source documents for the TeX process (tex files, bib database, abstract, etc.)
@@ -18,7 +19,7 @@ PDFLATEX_OPTS=-halt-on-error
 
 
 #======================================================================
-# Convenience targets
+# Targets
 #
 
 # Clean by removing all git-ignored files
@@ -26,10 +27,7 @@ clean:
 	git clean -fX .
 
 
-#======================================================================
-# LaTeX
-#
-
+# Generic LaTeX build process
 %.pdf: %.tex $(TEX_DEPS)
 
 	pdflatex $(PDFLATEX_OPTS) $*.tex
@@ -39,8 +37,6 @@ clean:
 	pdflatex $(PDFLATEX_OPTS) $*.tex
 
 
-#======================================================================
-## Debugging
-
+# for debugging: show all variables
 debug-make-vars:
 	$(foreach v, $(.VARIABLES), $(info $(v) = $($(v))))
