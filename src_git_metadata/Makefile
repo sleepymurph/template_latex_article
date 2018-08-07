@@ -2,7 +2,10 @@
 # Makefile: Extrace metadata from Git to include in LaTeX document
 #
 
-default: generated_git_metadata.tex generated_git_log.txt
+default: \
+    generated_git_metadata.tex \
+    generated_git_log.txt \
+    generated_git_short_hash.txt \
 
 # List of directories that should be included when listing the Git history
 DOC_SOURCE_DIRS=../src_*
@@ -28,3 +31,7 @@ generated_git_metadata.tex: $(GIT_HEAD) $(DOC_SOURCE_FILES) generate_git_metadat
 
 generated_git_log.txt: $(GIT_HEAD) $(DOC_SOURCE_FILES)
 	git log --oneline --graph -n10 $(DOC_SOURCE_DIRS) > generated_git_log.txt
+
+generated_git_short_hash.txt: $(GIT_HEAD)
+	git log -n 1 --pretty=format:%h -- $(DOC_SOURCE_DIRS) > generated_git_short_hash.txt
+	echo >> generated_git_short_hash.txt

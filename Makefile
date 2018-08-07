@@ -13,10 +13,11 @@ export DOC_NAME=doc
 clean:
 	git clean -fX .
 
-render: clean
-	cd src_latex/ && $(MAKE) $(DOC_NAME).pdf $(DOC_NAME)-final.pdf
-	cp src_latex/doc.pdf $(DOC_NAME)-draft.pdf
-	cp src_latex/doc-final.pdf $(DOC_NAME)-final.pdf
+datestamp: clean latex
+	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).pdf
+
+gitstamp: clean git_metadata latex
+	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat src_git_metadata/generated_git_short_hash.txt).pdf
 
 latex: graphviz git_metadata
 	cd src_latex && $(MAKE)
