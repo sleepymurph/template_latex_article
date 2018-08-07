@@ -13,9 +13,9 @@
 #
 # Output:
 #
-# \input{doc-introduction.tex}
-# \input{doc-related-works.tex}
-# \input{doc-conclusions.tex}
+# \input{section-introduction.tex}
+# \input{section-related-works.tex}
+# \input{section-conclusions.tex}
 #
 # So to use this script:
 #
@@ -26,7 +26,7 @@
 for SECTION in "$@"
 do
     CODIFIED="$(echo "$SECTION" | tr "A-Z " "a-z-")"
-    FILE="doc-$CODIFIED.tex"
+    FILE="section-$CODIFIED.tex"
     if [ ! -f "$FILE" ]
     then
         echo "\\section{$SECTION}" >> $FILE
