@@ -8,19 +8,11 @@ default: doc.pdf
 # Basename of current directory
 DIR_NAME="$(notdir $(shell pwd))"
 
-# Document dependencies, typically the diagrams
-DOC_DEPS=\
-    diagram_example.pdf \
-
-
 # Options to pass to pdflatex
 PDFLATEX_OPTS=-halt-on-error
 
 # Git: List of directories that should be included when listing the Git history
 DOC_SOURCE_DIRS=.
-
-# Graphviz: Files to include with each dot file
-DOT_INCLUDE=diagram_common.m4.dot
 
 #======================================================================
 # Specific rules for this document
@@ -50,7 +42,6 @@ TEX_DEPS=\
     sources.bib \
     doc-gen-meta.tex \
     doc-git-log.txt \
-    $(DOC_DEPS) \
 
 
 %.pdf: %.tex $(TEX_DEPS)
@@ -79,35 +70,6 @@ TEX_DEPS=\
     %.gpi \
 
 	gnuplot -e 'set terminal svg size 480,360' $*.gpi > $*.svg
-
-
-#======================================================================
-# Diagrams with Graphviz
-#
-# These are generic rules to render Graphviz graphs with an M4 processing step.
-# PDF seems to be the best vector graphics format for including in LaTeX
-# documents.
-#
-# X.dot -> (m4) X.preprocessed.dot -> (dot) X.pdf OR X.png
-#
-# You can create a common file of M4 macros to be used in all documents. Just
-# add it to the DOT_INCLUDE variable.
-#
-# If a specific diagram needs to be processed with Neato or other Graphviz
-# program, you can create a more specific rule for that diagram.
-#
-
-%.preprocessed.dot: %.dot $(DOT_INCLUDE)
-	m4 $(DOT_INCLUDE) $*.dot > $*.preprocessed.dot
-
-%.pdf: %.preprocessed.dot
-	dot -Tpdf -o $*.pdf $*.preprocessed.dot
-
-%.png: %.preprocessed.dot
-	dot -Tpng -o $*.png $*.preprocessed.dot
-
-# Do not delete preprocessed so they can be inspected for debugging
-.PRECIOUS: %.preprocessed.dot
 
 
 #======================================================================

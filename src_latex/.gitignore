@@ -28,9 +28,6 @@
 *.*-gls
 *.ist
 
-# Graphics
-*.preprocessed.dot
-
 # Listings
 *.lol
 
