@@ -1,0 +1,73 @@
+\documentclass[
+    %% We are writing US English in Europe. So use the US English language
+    %% setting, but use A4 paper.
+    %% There may be other Europe-friendly customizations throughout the
+    %% template, such as setting biblatex to print dates in long form
+    %% (e.g. "Apr. 8 2017") to avoid confusion over MDY vs DMY.
+    usenglish,
+    a4paper,
+    %% See the longer comment "On draft and final" in the macros-general.tex for
+    %% details on using the draft and final options, and the conventions these
+    %% macros follow.
+    %final,
+]{article}
+
+\input{packages.tex}
+\input{macros-general.tex}
+\input{macros-doc.tex}
+\input{glossary.tex}
+\makeglossaries
+
+
+\title{
+    DOCUMENT TITLE
+}
+\author{ME}
+\author{YOU}
+\affil{OUR ORG}
+\author{THE OTHER GUY}
+\affil{THEIR ORG}
+
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+% Include a plain-text abstract if it exists.
+%
+% Keeping the abstract in plain text makes it easier to copy-and-paste it into
+% web forms when submitting to publishers or archives.
+%
+% To not use an abstract, delete abstract.txt, and remove it from the list of
+% dependencies in the Makefile
+%
+\IfFileExists{abstract.txt}{%
+    \begin{abstract}%
+        % Also use paragraph skips in abstract area
+        \noindent
+        \setlength{\parskip}{.5\baselineskip}%
+        \setlength{\parindent}{0pt}%
+        \inputplaintext{abstract.txt}
+    \end{abstract}
+}{%
+    % Nothing
+}
+
+\input{content.tex}
+\input{example_content.tex}
+
+\printglossaries
+
+% Include all sources even if not cited
+%\nocite{*}
+\printbibliography[]
+
+\listoftodos
+%\listoffigures
+%\lstlistoflistings
+
+\documenthistory
+
+\end{document}

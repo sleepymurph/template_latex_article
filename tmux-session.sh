@@ -17,17 +17,22 @@ browser() {
 }
 
 SCRIPT_DIR="$( dirname "${BASH_SOURCE[0]}" | xargs readlink -f)"
-GIT_ROOT_DIR="$(cd $SCRIPT_DIR && git rev-parse --show-toplevel)"
+REPO_ROOT_DIR="$(cd $SCRIPT_DIR && git rev-parse --show-toplevel)"
 
 
 # -------------------------------------------
 # ↓↓↓ Set project-specific variables here ↓↓↓
 
-SESSION_NAME="latex"
-SESSION_DIR="$SCRIPT_DIR"
+DOC_NAME=doc
+REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
+
+LATEX_SRC_DIR="$SCRIPT_DIR/src_latex"
+
+SESSION_NAME="$DOC_NAME"
+SESSION_DIR="$REPO_ROOT_DIR"
 
 WINDOW_0_NAME="$SESSION_NAME"
-WINDOW_0_DIR="$SESSION_DIR"
+WINDOW_0_DIR="$REPO_ROOT_DIR"
 
 # ↑↑↑ ----------------------------------- ↑↑↑
 # -------------------------------------------
@@ -43,14 +48,12 @@ tmux send-keys "cd \"$WINDOW_0_DIR\"" C-m
 # ------------------------------------------
 # ↓↓↓ Customize session and windows here ↓↓↓
 
-browser_window \
-    https://github.com/sleepymurph/template_latex_article \
+browser_new_window "$REPO_HUB_URL"
 
-xdg-open "$SCRIPT_DIR/doc.pdf" &> /dev/null
-xdg-open "$SCRIPT_DIR/doc-final.pdf" &> /dev/null
+xdg-open "$LATEX_SRC_DIR/$DOC_NAME.pdf" &> /dev/null
 
 # In window 0 ($WINDOW_0_DIR)
-tmux send-keys 'vim -O doc.tex doc-content.tex' C-m
+tmux send-keys "vim -O $LATEX_SRC_DIR/$DOC_NAME.tex $LATEX_SRC_DIR/packages.tex" C-m
 
 # Open a new window with an elaborate vim tab/window layout
 #tmux new-window -n "window_1" -c "window_1_dir/"
