@@ -251,6 +251,8 @@
 
     \draftonlysection{Document Version and History}
     {
+        \input{../src_latex_git_info/doc-gen-meta.tex}
+
         Document date: \GitAuthorDate \\
         Git source version: \texttt{\GitAbrHash}%
         \ifnum \GitNumDirty > 0%
@@ -258,7 +260,7 @@
         \fi
 
         Recent history:
-        \lstinputlisting{doc-git-log.txt}
+        \lstinputlisting{../src_latex_git_info/doc-git-log.txt}
 
         \ifcsname GitUrl\endcsname
             Repository URL: \\

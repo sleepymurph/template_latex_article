@@ -18,8 +18,11 @@ render: clean
 	cp src_latex/doc.pdf $(DOC_NAME)-draft.pdf
 	cp src_latex/doc-final.pdf $(DOC_NAME)-final.pdf
 
-latex: graphviz
+latex: graphviz latex_git_info
 	cd src_latex && $(MAKE)
 
 graphviz:
 	cd src_graphviz && $(MAKE)
+
+latex_git_info:
+	cd src_latex_git_info/ && $(MAKE)
