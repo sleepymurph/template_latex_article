@@ -20,8 +20,6 @@
 # 2. Edit the 'latex` target to skip the subsystems you want it to skip.
 #
 
-default: latex
-
 
 #----------------------------------------------------------------------
 # Essential metadata for the document
@@ -46,8 +44,11 @@ export REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
 
 
 #----------------------------------------------------------------------
-# Other high-level targets
+# High-level targets
 #
+
+default: latex
+	cp src_latex/$(DOC_NAME).pdf ./
 
 clean:
 	git clean -fXd .
