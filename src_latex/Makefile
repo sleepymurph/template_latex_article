@@ -1,20 +1,21 @@
 #======================================================================
-# Document-specific variables
+# Makefile: LaTeX
 #
 
 # Default target
 default: doc.pdf
 
-# Basename of current directory
-DIR_NAME="$(notdir $(shell pwd))"
+# Source documents for the TeX process (tex files, bib database, abstract, etc.)
+#
+# If this list contains any files that are missing, Make will suddenly not
+# remember how to run LaTeX. So if you delete the abstract to disable it, be
+# sure to remove it from this list.
+#
+TEX_DEPS=*.tex *.bib \
+	 abstract.txt
 
 # Options to pass to pdflatex
 PDFLATEX_OPTS=-halt-on-error
-
-#======================================================================
-# Specific rules for this document
-#
-
 
 
 #======================================================================
@@ -33,12 +34,6 @@ clean:
 # LaTeX
 #
 
-TEX_DEPS=\
-    *.tex \
-    $(shell ls abstract.txt 2>/dev/null) \
-    sources.bib \
-
-
 %.pdf: %.tex $(TEX_DEPS)
 
 	pdflatex $(PDFLATEX_OPTS) $*.tex
@@ -50,21 +45,6 @@ TEX_DEPS=\
 # Generate a version of the doc in final mode
 %-final.tex: %.tex
 	sed 's/%final/final/' $*.tex > $*-final.tex
-
-
-#======================================================================
-# Plots with GnuPlot
-#
-
-%.pdf: \
-    %.gpi \
-
-	gnuplot -e 'set terminal pdf monochrome size 3in,2in' $*.gpi > $*.pdf
-
-%.svg: \
-    %.gpi \
-
-	gnuplot -e 'set terminal svg size 480,360' $*.gpi > $*.svg
 
 
 #======================================================================
