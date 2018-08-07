@@ -1,39 +1,160 @@
-LaTeX Article Template
+LaTeX Article Source Code
 ==================================================
 
 <!-- From-Template TODO: Be sure to change this description -->
 This is a starter LaTeX article with many customizations that I use consistently.
 
-<!-- From-Template TODO: Be sure to change all "article-" file names
-    if you changed the generated names in the Makefile -->
 
-## To view the article
+Building the Document
+--------------------------------------------------
 
-To view the article in its "final" form, see [article-final.pdf](article-final.pdf)
+The build for this document is controlled by GNU Make. If you have the proper
+dependencies installed, you should be able to run `make` To generate the
+document PDF.
 
-## To work on or collaborate on the article
+There is also a [Dockerfile](Dockerfile) which describes a Docker container
+with all necessary dependencies. If you have Docker installed and set up
+correctly, the `docker_make.sh` script will run the `make` build in a
+container.
 
-To view the article with draft annotations turned on, see
-[article-draft.pdf](article-draft.pdf)
+    # Build the document (default)
+    make
 
-See the [`article-latex-src/` source directory](article-latex-src/)
-and especially [its `README` file](article-latex-src/README.md)
-for information on rebuilding the PDF from source.
+    # Build the document in a container
+    ./docker_make.sh
+
+    # Run the clean target (remove temporary files)
+    make clean
+
+    # Run the clean target in a container
+    ./docker_make.sh clean
+
+**Warning: 3 GB container.**
+Note that installing a full LaTeX environment inside a container makes
+for a huge container (~3 GB).
+Be sure you have plenty of room in your /var/ partition,
+or wherever you have configured Docker to store your containers.
+Run `docker_cleanup.sh` to reclaim space.
+
+    # Delete the container image and purge all dangling containers
+    ./docker_cleanup.sh
+
+See the [top-level Makefile](Makefile) for additional targets.
+
+
+Build Modules
+--------------------------------------------------
+
+This build is designed to be broken into modules.
+
+- The [top-level Makefile](Makefile) controls the build over-all.
+- LaTeX source for the document is in the [`src_latex/`](src_latex) directory.
+- Parts of the document that need to be built with other systems go in their
+    own `src_*/` directories.
+
+### Stripping everything but LaTeX from the build process
+
+The main idea here is that the core LaTeX part of the build should be as close
+as possible to the standard pdflatex-bibtex-pdflatex-pdflatex invocation as
+possible. This way, collaborators and publication editors can tweak it and
+build it in a familiar manner if need be.
+
+To strip the build process to a bare-bones pdflatex invocation:
+
+1. Include the generated document components in the `generated_components/`
+    directory in the bundle.
+
+    Commit them with `git add -f generated_components/*`,
+    or simply make sure they're included in any bundles you send out.
+
+2. Edit the [top-level Makefile](Makefile)'s `latex`
+    target to skip the subsystems you want it to skip.
+
+
+After that, you should not have to worry about any of the following subsystems.
+
+
+### Git Metadata (`src_git_metadata/`)
+
+This document includes a macro that adds Git metadata to the document when it's
+not in `final` mode.
+
+Ubuntu dependencies: `apt install git`
+
+How it works:
+
+1. The Makefile runs scripts that query Git and write metadata to
+    various .tex and .txt files
+
+2. A TeX macro, `\documenthistory`, reads the generated files and inserts the
+   info into the LaTeX document.
+
+See the [src_git_metadata/Makefile](src_git_metadata/Makefile) for details,
+and see
+[src_latex/macros_general.tex](src_latex/macros_general.tex)
+for the definition for the `\documenthistory` macro.
+
+
+### Graphviz Diagrams (`src_graphviz/`)
+
+Graphviz (<https://www.graphviz.org/>)
+is a language for generating diagrams where bubbles point to each other.
+
+Ubuntu dependencies: `apt install graphviz m4`
+
+To create a new Graphviz diagram:
+
+1. Create a Graphviz file (e.g. my_diagram.dot)
+
+2. Edit [src_graphviz/Makefile](src_graphviz/Makefile) and add a PDF-version of
+   that name to the `GENERATED` variable:
+
+        GENERATED=\
+            example_graphviz_diagram.pdf \
+            my_diagram.pdf \
+
+3. Include the generated PDF in your LaTeX document (be sure to reference the
+   version that is copied to the generated_components/ directory):
+
+        \includegraphics[width=0.5\textwidth]{../generated_components/my_diagram.pdf}
+
+Note that this build process runs the Graphviz documents through the
+[M4 macro processor](https://www.gnu.org/software/m4/m4.html)
+before sending them to `dot`.
+This lets you use macros in your Graphviz files to define common styles
+and other shortcuts.
+However, it can make debugging trickier.
+To see the preprocessed output, look at the `*.preprocessed.dot` files in the
+subdirectory.
+
+See the [src_graphviz/Makefile](src_graphviz/Makefile) for details.
+
+
+Document Template
+--------------------------------------------------
+
+This document and build process is based on a template/skeleton
+by Michael Murphy
+at the UiT The Arctic University of Norway.
+
+The template is available on GitHub at
+<https://github.com/sleepymurph/template_latex_article>
 
 
 <!-- From-Template TODO: Delete everything below here -->
 
-## To create a new document from this skeleton
+### To create a new document from this skeleton
 
 To base a new document off of this skeleton:
 
 1. Clone this repository.
-2. Edit `Makefile` and change `DOC_NAME` to the desired PDF file names
-3. Edit `doc.tex` and change the title, author, and git URL
-4. Write the document contents in `doc-content.tex`, `abstract.txt`, etc.
-5. Edit the `Makefile` to add any document-specific build rules
-6. Edit the `Dockerfile` to change build environment dependencies
-7. Replace this README with your own
+2. Rename the main tex file `src_latex/doc.tex` to something more descriptive.
+3. Edit the top-level Makefile and change the `DOC_NAME` variable to match your main .tex file name.
+4. Change the `REPO_HUB_URL` as well.
+5. Run `make metadata_update` to propagate this metadata to other helper scripts.
+6. Dig into the code and write your document.
+    Start with the former doc.tex, the top-level Makefile, and the top-level Dockerfile
+    to get your bearings.
 
 
 ## Why a document skeleton? Why not a Package?
@@ -48,87 +169,3 @@ which added another layer of difficulty to working with the document.
 This is the nice and lazy way for now:
 copy my usual customizations,
 but then tweak them as needed for each individual document.
-
-
-## Notes on this document skeleton
-
-
-### Font: Open Sans
-
-[Open Sans](https://fonts.google.com/specimen/Open+Sans)
-is the official font at the university where I work.
-Therefore it is the default font for my templates.
-
-This means that this template requires the
-[`opensans` package for LaTeX](https://ctan.org/pkg/opensans).
-On Ubuntu this package is part of the
-[`texlive-fonts-extra` package](https://packages.ubuntu.com/xenial/texlive-fonts-extra).
-
-    apt install texlive-fonts-extra
-
-Or you can use a different font by editing the `packages.tex` file.
-The font packages are near the top.
-
-
-### US English, A4 paper
-
-I am an American living in Norway.
-I write in US English, but I want the European paper size.
-In theory I should be able to set up my locales for all of that to happen
-automatically, but I haven't managed to figure it out yet.
-For now, I just use the `a4paper` option in the main `\documentclass` macro.
-If you need to change that, find it at the top of `doc.tex`.
-
-There may be a few more Europe-friendly tweaks to my styles.
-For example, I set the `biblatex` package to print dates like "Apr. 7, 2017"
-instead of the "04/07/2017" to avoid any possible confusion over MDY vs DMY.
-
-
-### Graphviz Diagrams
-
-I love Graphviz.
-I use it for all kinds of diagrams and visualizations.
-So I have it built into the document build process here.
-
-To use Graphviz:
-
-1. Add dot files in the source directory
-
-2. Add the dot file name to the `DOC_DEPS` variable in the Makefile,
-    but with a PDF extension
-
-        # To include a diagram generated from example_graphviz_diagram.dot
-        DOC_DEPS=\
-            example_graphviz_diagram.pdf \
-            another_diagram.pdf \
-
-3. Create a figure in the document
-
-
-#### M4 preprocessing for Graphviz diagrams
-
-The build process runs the diagrams through the `m4` preprocessor first,
-then through `dot`.
-This lets you use macros in your Graphviz files to define common styles
-and other shortcuts.
-
-For example, this macro defines `TENTATIVE` as a shortcut for `style="dashed'`
-to create a reusable link style:
-
-
-    define(TENTATIVE, `style="dashed"')
-
-    digraph{
-        hello -> world [TENTATIVE]
-        world -> "!" [TENTATIVE]
-    }
-
-This layer of indirection can make debugging tricky.
-So the intermediate build step is explicit.
-The result of M4 expansion will be written to a file with a
-`.preprocessed.dot` extension.
-This file can be checked for syntax errors and unexpected macro trouble.
-
-Common macros for many diagrams can be put in `diagram_common.m4.dot`.
-This file name is specified in the `DOT_INCLUDE` Makefile variable,
-if you need to change it.
