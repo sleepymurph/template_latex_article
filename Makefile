@@ -14,9 +14,9 @@ clean:
 	git clean -fX .
 
 render: clean
-	cd article-latex-src/ && $(MAKE) doc.pdf doc-final.pdf
-	cp article-latex-src/doc.pdf $(DOC_NAME)-draft.pdf
-	cp article-latex-src/doc-final.pdf $(DOC_NAME)-final.pdf
+	cd src_latex/ && $(MAKE) doc.pdf doc-final.pdf
+	cp src_latex/doc.pdf $(DOC_NAME)-draft.pdf
+	cp src_latex/doc-final.pdf $(DOC_NAME)-final.pdf
 
 latex:
-	cd article-latex-src && $(MAKE)
+	cd src_latex && $(MAKE)
