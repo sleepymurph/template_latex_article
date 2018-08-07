@@ -205,9 +205,6 @@
 % Other document features (hyperref aware)
 %
 
-% Combined references (chapters 1, 2 and 3)
-\usepackage{cleveref}
-
 % Glossaries
 \usepackage[toc]{glossaries}
 
@@ -218,3 +215,7 @@
 
 % Author affiliations
 \usepackage{authblk}
+
+% Combined references (chapters 1, 2 and 3)
+% Must be included after amsmath (and glossaries, because glossaries brings in amsmath)
+\usepackage{cleveref}
