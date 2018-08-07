@@ -11,8 +11,11 @@ default: $(DOC_NAME).pdf
 # remember how to run LaTeX. So if you delete the abstract to disable it, be
 # sure to remove it from this list.
 #
-TEX_DEPS=*.tex *.bib \
-	 abstract.txt
+TEX_DEPS=\
+	 $(wildcard *.tex) \
+	 $(wildcard *.bib) \
+	 $(wildcard *.txt) \
+	 $(wildcard ../src_*/*.tex) \
 
 # Options to pass to pdflatex
 PDFLATEX_OPTS=-halt-on-error
