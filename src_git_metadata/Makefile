@@ -11,8 +11,17 @@ DOC_SOURCE_DIRS=../src_*
 # Document version info (Git)
 #
 
+# Use Bash for shell to get <() syntax necessary for getting source files
+SHELL:=/bin/bash
+
 GIT_HEAD=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
-DOC_SOURCE_FILES=$(shell git ls-files $(DOC_SOURCE_DIRS))
+
+# List all files tracked by Git, minus those that are deleted in workdir
+DOC_SOURCE_FILES=$(shell \
+		comm -23 \
+			<(git ls-files $(DOC_SOURCE_DIRS)| sort) \
+			<(git ls-files --deleted $(DOC_SRC_DIRS)| sort) \
+		)
 
 generated_git_metadata.tex: $(GIT_HEAD) $(DOC_SOURCE_FILES) generate_git_metadata_tex.sh
 	./generate_git_metadata_tex.sh $(DOC_SOURCE_DIRS) > generated_git_metadata.tex

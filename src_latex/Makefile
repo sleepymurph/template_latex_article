@@ -3,7 +3,7 @@
 #
 
 # Default target
-default: doc.pdf
+default: $(DOC_NAME).pdf
 
 # Source documents for the TeX process (tex files, bib database, abstract, etc.)
 #

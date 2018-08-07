@@ -3,18 +3,18 @@
 default: latex
 
 
-# The document name when using the "render" target
+# The name of the main document (tex and pdf)
 #
-# Rendered documents will be DOC_NAME-draft.pdf and DOC_NAME-final.pdf,
-# So if DOC_NAME is "article", "article-draft.pdf" and "article-final.pdf"
-DOC_NAME="article"
-
+# pdflatex will be invoked with this name, meaning it will look for DOCNAME.tex
+# and generate DOCNAME.pdf
+#
+export DOC_NAME=doc
 
 clean:
 	git clean -fX .
 
 render: clean
-	cd src_latex/ && $(MAKE) doc.pdf doc-final.pdf
+	cd src_latex/ && $(MAKE) $(DOC_NAME).pdf $(DOC_NAME)-final.pdf
 	cp src_latex/doc.pdf $(DOC_NAME)-draft.pdf
 	cp src_latex/doc-final.pdf $(DOC_NAME)-final.pdf
 
