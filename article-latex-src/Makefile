@@ -8,12 +8,6 @@ default: doc.pdf
 # Basename of current directory
 DIR_NAME="$(notdir $(shell pwd))"
 
-# The document name when using the "render" target
-#
-# Rendered documents will be DOC_NAME-draft.pdf and DOC_NAME-final.pdf,
-# So if DOC_NAME is "article", "article-draft.pdf" and "article-final.pdf"
-DOC_NAME="article"
-
 # Document dependencies, typically the diagrams
 DOC_DEPS=\
     diagram_example.pdf \
@@ -37,11 +31,6 @@ DOT_INCLUDE=diagram_common.m4.dot
 #======================================================================
 # Convenience targets
 #
-
-# Render draft and final PDFs in parent dir
-render: clean doc.pdf doc-final.pdf
-	cp doc.pdf ../$(DOC_NAME)-draft.pdf
-	cp doc-final.pdf ../$(DOC_NAME)-final.pdf
 
 # A version of the PDF in final mode
 final: doc-final.pdf
