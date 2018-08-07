@@ -9,6 +9,7 @@ default: latex
 # and generate DOCNAME.pdf
 #
 export DOC_NAME=doc
+export REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
 
 
 #----------------------------------------------------------------------
