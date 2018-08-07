@@ -1,0 +1,16 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[requires]
+# Being overly specific about version can lead to trouble with different
+# python3 versions in and out of the container. And unfortunately Pipenv
+# doesn't let you specify wildcars. So leave this commented out and assume it's
+# a reasonable version of Python 3.
+#python_version = "3.5"
+
+[packages]
+matplotlib = "*"

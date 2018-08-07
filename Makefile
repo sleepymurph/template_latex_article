@@ -17,7 +17,7 @@ export REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
 #
 
 clean:
-	git clean -fX .
+	git clean -fXd .
 
 # Create a date-stamped PDF to send to a collaborator
 datestamp: clean latex
@@ -35,7 +35,7 @@ metadata_update: tmux-session.sh
 # Build subsystems
 #
 
-latex: graphviz git_metadata
+latex: graphviz git_metadata matplotlib
 	cd src_latex && $(MAKE)
 
 graphviz:
@@ -44,6 +44,8 @@ graphviz:
 git_metadata:
 	cd src_git_metadata/ && $(MAKE)
 
+matplotlib:
+	cd src_matplotlib/ && $(MAKE)
 
 #----------------------------------------------------------------------
 # Scripts to update when high-level metadata changes

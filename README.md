@@ -133,6 +133,50 @@ subdirectory.
 See the [src_graphviz/Makefile](src_graphviz/Makefile) for details.
 
 
+### Plots with Python and Matplotlib (`src_matplotlib/`)
+
+Matplotlib (<https://matplotlib.org/>)
+is an extensive Python library for plotting.
+
+- Ubuntu dependencies: `apt install python3-pip`
+- User dependencies: `pip3 install --user pipenv`
+
+To create a new Matplotlib diagram
+
+1. Put data files in the `data/` directory.
+
+2. Choose a naming convention that identifies different formats of data to go
+   with different processors. For example, `*_multimeter.csv` for multimeter
+   data that will be processed with the multimeter plotting script.
+
+3. Write a Python script to transform data into a plot (the hard part).
+
+4. Use Pipenv when adding Python dependencies to your script. For example:
+
+        pipenv install matplotlib
+
+5. Use your naming convention to create a generic Make rule for different
+   formats of data. Example:
+
+        # Generic rule to use the multimeter script to plot multimeter data
+        %_multimeter.pdf: .venv plot_multimeter_data.py \
+            ../data/%_multimeter.csv
+                pipenv run ./plot_multimeter_data.py \
+                    ../data/$*_multimeter.csv \
+                    $*_multimeter.pdf
+
+6. Edit [src_matplotlib/Makefile](src_matplotlib/Makefile) and add a
+   PDF-version of that name to the `GENERATED` variable.
+
+        GENERATED=\
+            example_data_multimeter.pdf \
+
+7. Include the generated PDF in your LaTeX document (be sure to reference the
+   version that is copied to the generated_components/ directory).
+
+See the [src_matplotlib/Makefile](src_matplotlib/Makefile) for details.
+
+
 Document Template
 --------------------------------------------------
 

@@ -46,9 +46,20 @@ RUN apt-get update \
             m4 \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+# matplotlib: additional dependencies to build matplotlib plots
+RUN apt-get update \
+    && apt-get install -y \
+            python3-pip \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 # Create a user
 ENV UID 1000
 RUN useradd --uid $UID --create-home --shell /bin/bash compile
 USER compile
+
+# matplotlib: install pipenv as the user
+ENV PATH "/home/compile/.local/bin:${PATH}"
+ENV LC_ALL "C.UTF-8"
+RUN pip3 install --user pipenv
 
 WORKDIR /home/compile/repo
