@@ -1,8 +1,39 @@
-LaTeX Article Source Code
+<!-- TODO: Be sure to change the description below -->
+
+LaTeX Article Source Code Template
 ==================================================
 
-<!-- From-Template TODO: Be sure to change this description -->
 This is a starter LaTeX article with many customizations that I use consistently.
+
+### To create a new document from this skeleton
+
+To base a new document off of this skeleton:
+
+1. Clone this repository.
+2. Rename the main tex file `src_latex/doc.tex` to something more descriptive.
+3. Edit the top-level Makefile and change the `DOC_NAME` variable to match your main .tex file name.
+4. Change the `REPO_HUB_URL` as well.
+5. Run `make metadata_update` to propagate this metadata to other helper scripts.
+6. Dig into the code and write your document.
+    Start with the former doc.tex, the top-level Makefile, and the top-level Dockerfile
+    to get your bearings.
+
+
+### Why a document skeleton? Why not a Package?
+
+Because I have barely scratched the surface of TeX/LaTeX and I definitely
+don't know enough about how packaging works.
+
+I've also had experience with a custom LaTeX document class that did too much.
+It brought in so many packages that it clashed with many of the packages I
+tried to use, which added another layer of difficulty to working with the
+document.
+
+This is the nice and lazy way for now:
+copy my usual customizations,
+but then tweak them as needed for each individual document.
+
+<!-- TODO: Be sure to change the description above -->
 
 
 Building the Document
@@ -124,34 +155,3 @@ at the UiT The Arctic University of Norway.
 
 The template is available on GitHub at
 <https://github.com/sleepymurph/template_latex_article>
-
-<!-- From-Template TODO: Delete everything below here -->
-
-
-### To create a new document from this skeleton
-
-To base a new document off of this skeleton:
-
-1. Clone this repository.
-2. Rename the main tex file `src_latex/doc.tex` to something more descriptive.
-3. Edit the top-level Makefile and change the `DOC_NAME` variable to match your main .tex file name.
-4. Change the `REPO_HUB_URL` as well.
-5. Run `make metadata_update` to propagate this metadata to other helper scripts.
-6. Dig into the code and write your document.
-    Start with the former doc.tex, the top-level Makefile, and the top-level Dockerfile
-    to get your bearings.
-
-
-### Why a document skeleton? Why not a Package?
-
-Because I have barely scratched the surface of TeX/LaTeX and I definitely
-don't know enough about how packaging works.
-
-I've also had experience with a custom LaTeX document class that did too much.
-It brought in so many packages that it clashed with many of the packages I
-tried to use, which added another layer of difficulty to working with the
-document.
-
-This is the nice and lazy way for now:
-copy my usual customizations,
-but then tweak them as needed for each individual document.
