@@ -24,7 +24,7 @@ datestamp: clean latex
 
 # Create a date-and-git-hash-stamped PDF to send to a collaborator
 gitstamp: clean git_metadata latex
-	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat generated_components/generated_git_short_hash.txt).pdf
+	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat generated_components/git_short_hash.txt).pdf
 
 
 #----------------------------------------------------------------------

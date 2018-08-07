@@ -240,7 +240,7 @@
 % See the 'generate_git_metadata_tex.sh' script for details of what is defined,
 % and the Makefile for details of how the script is called.
 %
-% Note that the Git log is a separate plaintext document, 'generated_git_log.txt',
+% Note that the Git log is a separate plaintext document, 'git_log.txt',
 % that is also generated during the build process (see the Makefile). This is
 % because of how tricky verbatim text is in LaTeX.
 %
@@ -252,7 +252,7 @@
 
     \draftonlysection{Document Version and History}
     {
-        \input{../generated_components/generated_git_metadata.tex}
+        \input{../generated_components/git_metadata.tex}
 
         Document date: \GitAuthorDate \\
         Git source version: \texttt{\GitAbrHash}%
@@ -261,7 +261,7 @@
         \fi
 
         Recent history:
-        \lstinputlisting{../generated_components/generated_git_log.txt}
+        \lstinputlisting{../generated_components/git_log.txt}
 
         \ifcsname GitUrl\endcsname
             Repository URL: \\

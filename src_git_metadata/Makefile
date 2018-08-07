@@ -3,9 +3,9 @@
 #
 
 GENERATED=\
-    generated_git_metadata.tex \
-    generated_git_log.txt \
-    generated_git_short_hash.txt \
+    git_metadata.tex \
+    git_log.txt \
+    git_short_hash.txt \
 
 default: copy_generated
 
@@ -31,12 +31,12 @@ DOC_SOURCE_FILES=$(shell \
 copy_generated: $(GENERATED)
 	cp $(GENERATED) ../generated_components
 
-generated_git_metadata.tex: $(GIT_HEAD) $(DOC_SOURCE_FILES) generate_git_metadata_tex.sh
-	./generate_git_metadata_tex.sh $(DOC_SOURCE_DIRS) > generated_git_metadata.tex
+git_metadata.tex: $(GIT_HEAD) $(DOC_SOURCE_FILES) generate_git_metadata_tex.sh
+	./generate_git_metadata_tex.sh $(DOC_SOURCE_DIRS) > git_metadata.tex
 
-generated_git_log.txt: $(GIT_HEAD) $(DOC_SOURCE_FILES)
-	git log --oneline --graph -n10 $(DOC_SOURCE_DIRS) > generated_git_log.txt
+git_log.txt: $(GIT_HEAD) $(DOC_SOURCE_FILES)
+	git log --oneline --graph -n10 $(DOC_SOURCE_DIRS) > git_log.txt
 
-generated_git_short_hash.txt: $(GIT_HEAD)
-	git log -n 1 --pretty=format:%h -- $(DOC_SOURCE_DIRS) > generated_git_short_hash.txt
-	echo >> generated_git_short_hash.txt
+git_short_hash.txt: $(GIT_HEAD)
+	git log -n 1 --pretty=format:%h -- $(DOC_SOURCE_DIRS) > git_short_hash.txt
+	echo >> git_short_hash.txt
