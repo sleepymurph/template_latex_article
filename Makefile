@@ -30,7 +30,7 @@
 # pdflatex will be invoked with this name, meaning it will look for DOCNAME.tex
 # and generate DOCNAME.pdf
 #
-# Run 'make metadata_update' to propagate these values to various helper
+# Run 'make metadata_dependents' to propagate these values to various helper
 # scripts
 
 export DOC_NAME=doc
@@ -43,13 +43,17 @@ export DOC_NAME=doc
 export REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
 
 
+# Files that need to be updated if the metadata changes
+METADATA_DEPENDENTS=tmux-session.sh
+
+
 #----------------------------------------------------------------------
 # High-level targets
 #
 
-.PHONY: all clean datestamp gitstamp metadata_update
+.PHONY: all clean datestamp gitstamp metadata_dependents
 
-all: $(DOC_NAME).pdf metadata_update
+all: $(DOC_NAME).pdf metadata_dependents
 
 $(DOC_NAME).pdf: src_latex
 	cp src_latex/$(DOC_NAME).pdf ./
@@ -66,7 +70,7 @@ gitstamp: clean git_metadata src_latex
 	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat generated_components/git_short_hash.txt).pdf
 
 # Propagate metadata to various helper scripts after changing it above
-metadata_update: tmux-session.sh
+metadata_dependents: $(METADATA_DEPENDENTS)
 
 
 #----------------------------------------------------------------------
@@ -88,7 +92,7 @@ $(MODULES):
 
 
 #----------------------------------------------------------------------
-# Scripts to update when high-level metadata changes
+# Metadata dependents: files to update when high-level metadata changes
 #
 
 tmux-session.sh: Makefile
