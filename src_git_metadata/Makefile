@@ -21,8 +21,6 @@ DOC_SOURCE_DIRS=$(wildcard ../src_*)
 
 GENERATED_COPIES=$(addprefix ../generated_components/, $(GENERATED))
 
-default: $(GENERATED_COPIES)
-
 $(GENERATED_COPIES): $(GENERATED)
 	cp $(GENERATED) ../generated_components
 

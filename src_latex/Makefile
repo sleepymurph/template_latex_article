@@ -2,8 +2,9 @@
 # Makefile: LaTeX
 #
 
-# The DOC_NAME is set by the parent build process
-default: $(DOC_NAME).pdf
+# Options to pass to pdflatex
+PDFLATEX_OPTS=-halt-on-error
+
 
 # Source documents for the TeX process (tex files, bib database, abstract, etc.)
 #
@@ -18,29 +19,16 @@ TEX_DEPS=\
 	 $(wildcard ../src_*/*.tex) \
 	 $(wildcard ../generated_components/*) \
 
-# Options to pass to pdflatex
-PDFLATEX_OPTS=-halt-on-error
 
-
-#======================================================================
-# Targets
-#
-
-# Clean by removing all git-ignored files
-clean:
-	git clean -fX .
+# Default target: build the document
+# The DOC_NAME is set by the parent build process
+$(DOC_NAME).pdf:
 
 
 # Generic LaTeX build process
 %.pdf: %.tex $(TEX_DEPS)
-
 	pdflatex $(PDFLATEX_OPTS) $*.tex
 	bibtex $*.aux
 	makeglossaries $*
 	pdflatex $(PDFLATEX_OPTS) $*.tex
 	pdflatex $(PDFLATEX_OPTS) $*.tex
-
-
-# for debugging: show all variables
-debug-make-vars:
-	$(foreach v, $(.VARIABLES), $(info $(v) = $($(v))))

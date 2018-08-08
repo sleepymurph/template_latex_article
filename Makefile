@@ -47,8 +47,10 @@ export REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
 # High-level targets
 #
 
-default: latex
+$(DOC_NAME).pdf: latex
 	cp src_latex/$(DOC_NAME).pdf ./
+
+.PHONY: clean datestamp gitstamp metadata_update
 
 clean:
 	git clean -fXd .
@@ -69,6 +71,8 @@ metadata_update: tmux-session.sh
 # Build subsystems
 #
 
+.PHONY: latex graphviz git_metadata matplotlib
+
 latex: graphviz git_metadata matplotlib
 	cd src_latex && $(MAKE)
 
@@ -80,6 +84,7 @@ git_metadata:
 
 matplotlib:
 	cd src_matplotlib/ && $(MAKE)
+
 
 #----------------------------------------------------------------------
 # Scripts to update when high-level metadata changes

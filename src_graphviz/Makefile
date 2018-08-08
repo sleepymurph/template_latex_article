@@ -35,8 +35,6 @@ DOT_INCLUDE=diagram_common.m4.dot
 
 GENERATED_COPIES=$(addprefix ../generated_components/, $(GENERATED))
 
-default: $(GENERATED_COPIES)
-
 $(GENERATED_COPIES): $(GENERATED)
 	cp $(GENERATED) ../generated_components
 
