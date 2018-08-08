@@ -58,16 +58,18 @@ all: $(DOC_NAME).pdf metadata_dependents
 $(DOC_NAME).pdf: src_latex
 	cp src_latex/$(DOC_NAME).pdf ./
 
+# Remove generated files
 clean:
+	# The '-X' removes only git-ignored files, leaving manually createded files
 	git clean -fXd .
 
 # Create a date-stamped PDF to send to a collaborator
-datestamp: clean src_latex
-	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).pdf
+datestamp: $(DOC_NAME).pdf
+	cp $(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).pdf
 
 # Create a date-and-git-hash-stamped PDF to send to a collaborator
-gitstamp: clean git_metadata src_latex
-	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat generated_components/git_short_hash.txt).pdf
+gitstamp: src_git_metadata $(DOC_NAME).pdf
+	cp $(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat generated_components/git_short_hash.txt).pdf
 
 # Propagate metadata to various helper scripts after changing it above
 metadata_dependents: $(METADATA_DEPENDENTS)
