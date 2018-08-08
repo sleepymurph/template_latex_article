@@ -71,7 +71,7 @@ Run `docker_cleanup.sh` to reclaim space.
     ./docker_cleanup.sh
 
 See the [top-level Makefile](Makefile) for additional targets,
-and see the [Dockerfile](Docerfile) for build dependencies.
+and see the [Dockerfile](Dockerfile) for build dependencies.
 
 
 Build Modules
@@ -119,7 +119,7 @@ How it works with this build system:
 
 See the [src_git_metadata/Makefile](src_git_metadata/Makefile) for details,
 and see
-[src_latex/macros_general.tex](src_latex/macros_general.tex)
+[src_latex/macros-general.tex](src_latex/macros-general.tex)
 for the definition for the `\documenthistory` macro.
 
 
