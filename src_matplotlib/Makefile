@@ -39,6 +39,18 @@ export PIPENV_VENV_IN_PROJECT=1
 	pipenv install
 
 # Generic rule to use the multimeter script to plot multimeter data
+# If there is an additional *_multimeter_yhl.csv file,
+# it will be used for extra y-axis labels
+%_multimeter.pdf: .venv plot_multimeter_data.py \
+    ../data/%_multimeter.csv \
+    ../data/%_multimeter_yhl.csv
+	pipenv run ./plot_multimeter_data.py \
+	    ../data/$*_multimeter.csv \
+	    --yhl ../data/$*_multimeter_yhl.csv \
+	    $*_multimeter.pdf
+
+# Generic rule to use the multimeter script to plot multimeter data
+# (No additional *_multimeter_yhl.csv file)
 %_multimeter.pdf: .venv plot_multimeter_data.py \
     ../data/%_multimeter.csv
 	pipenv run ./plot_multimeter_data.py \

@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cycler
 
+import argparse
 import sys
 import csv
 import datetime
@@ -15,6 +16,21 @@ import datetime
 # First line of file that real data appears on (1-indexed)
 firstdataline = 20
 
+def build_argparser():
+    parser = argparse.ArgumentParser(
+            description="Plot multimeter data from CSV")
+
+    parser.add_argument('infilename', type=str,
+            help="CSV file to plot")
+
+    parser.add_argument('--yhl', type=str,
+            help="CSV file of y-axis highlights to label")
+
+    parser.add_argument('outfilename', type=str,
+            default="test.pdf",
+            help="name of PDF file to output to")
+
+    return parser
 
 def parsetimestamp(ts):
     #ts = ts.decode("utf-8")
@@ -30,14 +46,14 @@ def maybeindex(haystack, needle):
 
 if __name__ == "__main__":
 
-    infilename = sys.argv[1]
-    outfilename = sys.argv[2] if len(sys.argv)>2 else "test.pdf"
+    parser = build_argparser()
+    args = parser.parse_args()
 
     currents = []
     times = []
     annotations = []
 
-    with open(infilename) as csvfile:
+    with open(args.infilename) as csvfile:
         for i, line in enumerate(csvfile):
             if i < firstdataline - 1:
                 continue
@@ -46,6 +62,15 @@ if __name__ == "__main__":
             currents.append(values[0])
             times.append(values[3])
             annotations.append(values[4] if len(values) > 4 else "")
+
+    special_currents = []
+    if args.yhl:
+        with open(args.yhl) as yhlfile:
+            yhlvalues = csv.reader(yhlfile, delimiter=',', quotechar='"',
+                    skipinitialspace=True)
+            for row in yhlvalues:
+                print(row)
+                special_currents.append( (float(row[0]), row[1].strip()) )
 
     currents = np.array(currents)
     times = np.array(times)
@@ -102,12 +127,6 @@ if __name__ == "__main__":
                     )
             print(i, ann)
 
-    special_currents = [
-            (8.6, "off"),
-            (111, "stopped"),
-            (283, "idle"),
-            ]
-
     for ma, ann in special_currents:
         ax.axhline(ma, color='black', linestyle='dotted')
         ax.annotate("{:>3}".format(ma),
@@ -123,4 +142,4 @@ if __name__ == "__main__":
                 verticalalignment="bottom",
                 )
 
-    fig.savefig(outfilename)
+    fig.savefig(args.outfilename)
