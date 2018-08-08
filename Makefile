@@ -17,7 +17,7 @@
 #     Commit them with `git add -f generated_components/*`, or simply make sure
 #     they're included in any bundles you send out.
 #
-# 2. Edit the 'latex` target to skip the subsystems you want it to skip.
+# 2. Remove the build steps you want to skip from the MODULES variable below
 #
 
 
@@ -47,20 +47,22 @@ export REPO_HUB_URL=https://github.com/sleepymurph/template_latex_article
 # High-level targets
 #
 
-$(DOC_NAME).pdf: latex
-	cp src_latex/$(DOC_NAME).pdf ./
+.PHONY: all clean datestamp gitstamp metadata_update
 
-.PHONY: clean datestamp gitstamp metadata_update
+all: $(DOC_NAME).pdf metadata_update
+
+$(DOC_NAME).pdf: src_latex
+	cp src_latex/$(DOC_NAME).pdf ./
 
 clean:
 	git clean -fXd .
 
 # Create a date-stamped PDF to send to a collaborator
-datestamp: clean latex
+datestamp: clean src_latex
 	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).pdf
 
 # Create a date-and-git-hash-stamped PDF to send to a collaborator
-gitstamp: clean git_metadata latex
+gitstamp: clean git_metadata src_latex
 	cp src_latex/$(DOC_NAME).pdf $(DOC_NAME).$(shell date +%Y%m%d).$(shell cat generated_components/git_short_hash.txt).pdf
 
 # Propagate metadata to various helper scripts after changing it above
@@ -71,19 +73,18 @@ metadata_update: tmux-session.sh
 # Build subsystems
 #
 
-.PHONY: latex graphviz git_metadata matplotlib
+MODULES=\
+	src_graphviz \
+	src_git_metadata \
+	src_matplotlib \
 
-latex: graphviz git_metadata matplotlib
-	cd src_latex && $(MAKE)
+.PHONY: src_latex $(MODULES)
 
-graphviz:
-	cd src_graphviz && $(MAKE)
+src_latex: $(MODULES)
+	$(MAKE) -C src_latex
 
-git_metadata:
-	cd src_git_metadata/ && $(MAKE)
-
-matplotlib:
-	cd src_matplotlib/ && $(MAKE)
+$(MODULES):
+	$(MAKE) -C $@
 
 
 #----------------------------------------------------------------------
