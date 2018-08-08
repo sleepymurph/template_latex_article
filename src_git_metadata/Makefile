@@ -7,11 +7,25 @@ GENERATED=\
     git_log.txt \
     git_short_hash.txt \
 
-default: $(GENERATED)
-	cp $(GENERATED) ../generated_components
-
 # List of directories that should be included when listing the Git history
 DOC_SOURCE_DIRS=$(wildcard ../src_*)
+
+
+#----------------------------------------------------------------------
+# Default rule: generate all and copy to output directory
+#
+# 1. Create a list of generated file copies
+# 2. The Make rule for the copies is to copy them.
+# 3. The default rule is to make those copies.
+#
+
+GENERATED_COPIES=$(addprefix ../generated_components/, $(GENERATED))
+
+default: $(GENERATED_COPIES)
+
+$(GENERATED_COPIES): $(GENERATED)
+	cp $(GENERATED) ../generated_components
+
 
 #======================================================================
 # Document version info (Git)

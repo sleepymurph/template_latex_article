@@ -16,6 +16,7 @@ TEX_DEPS=\
 	 $(wildcard *.bib) \
 	 $(wildcard *.txt) \
 	 $(wildcard ../src_*/*.tex) \
+	 $(wildcard ../generated_components/*) \
 
 # Options to pass to pdflatex
 PDFLATEX_OPTS=-halt-on-error

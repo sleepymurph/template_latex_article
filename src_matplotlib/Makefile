@@ -27,8 +27,21 @@
 GENERATED=\
 	example_data_multimeter.pdf \
 
-default: $(GENERATED)
+#----------------------------------------------------------------------
+# Default rule: generate all and copy to output directory
+#
+# 1. Create a list of generated file copies
+# 2. The Make rule for the copies is to copy them.
+# 3. The default rule is to make those copies.
+#
+
+GENERATED_COPIES=$(addprefix ../generated_components/, $(GENERATED))
+
+default: $(GENERATED_COPIES)
+
+$(GENERATED_COPIES): $(GENERATED)
 	cp $(GENERATED) ../generated_components
+
 
 # Tell pipenv to put its virtual environment in the project directory,
 # so that we can more easily check that its there

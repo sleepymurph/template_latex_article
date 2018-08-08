@@ -23,10 +23,23 @@
 GENERATED=\
     example_graphviz_diagram.pdf
 
-default: $(GENERATED)
+DOT_INCLUDE=diagram_common.m4.dot
+
+#----------------------------------------------------------------------
+# Default rule: generate all and copy to output directory
+#
+# 1. Create a list of generated file copies
+# 2. The Make rule for the copies is to copy them.
+# 3. The default rule is to make those copies.
+#
+
+GENERATED_COPIES=$(addprefix ../generated_components/, $(GENERATED))
+
+default: $(GENERATED_COPIES)
+
+$(GENERATED_COPIES): $(GENERATED)
 	cp $(GENERATED) ../generated_components
 
-DOT_INCLUDE=diagram_common.m4.dot
 
 #----------------------------------------------------------------------
 # Generic Rules
