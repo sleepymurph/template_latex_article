@@ -91,7 +91,7 @@ This build is designed to be broken into modules:
 ### Stripping everything but LaTeX from the build process
 
 Everything that needs tools other than pdflatex and bibtex to build should be
-put in subsystems in src_*/ subdirectories.
+put in subsystems in `src_*/ subdirectories`.
 
 The main idea here is that the core LaTeX part of the build should be as close
 as possible to the standard pdflatex-bibtex-pdflatex-pdflatex invocation as
