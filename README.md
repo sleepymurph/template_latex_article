@@ -1,9 +1,23 @@
 <!-- TODO: Be sure to change the description below -->
 
-LaTeX Article Source Code Template
+A Not-Very Good LaTeX Article Source Code Template
 ==================================================
 
-This is a starter LaTeX article with many customizations that I use consistently.
+Update January 2023:
+
+This is a skeleton LaTeX article with a bunch of customizations that I used
+when I was kind of new to LaTeX. It is not very good and I do not recommend
+using it.
+
+And now this repo is getting security alerts from GitHub's "Dependabot" because
+of updated libraries.
+
+It is totally not worth maintaining this monstrosity that I do not even use
+anymore and that I don't think anyone else ever used.
+I am archiving it for now and I will probably full-on delete it at some point.
+
+Old README (from ~2018)
+==================================================
 
 ### To create a new document from this skeleton
 
